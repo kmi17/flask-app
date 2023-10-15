@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-learning
+  template:
+    metadata:
+      labels:
+        app: flask-learning
+    spec:
+      containers:
+      - name: flask-learning
+        image: flask-learning:latest
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+      volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
